@@ -1,0 +1,11 @@
+desocup <- read.csv("C:\\Users\\ALUMNO-D21\\Documents\\inegi3.csv")
+tdesoc<- ts(desocup,start = 2005,end = 2018,frequency = 4)
+
+### la descomposicion de la serie de tiempo nos permite conocer la estacionalidad y la aleatoriedad de la ST
+## para descomponer una serie de tiempo se utiliza la de descompose() para descomponer una serie de tiempo
+tdesocadi<- decompose(tdesoc)
+plot(tdesocadi)
+tdesocmult<- decompose(tdesoc,type = "mult")
+plot(tdesocmult)
+names(tdesocadi)
+tdesocadi$trend
