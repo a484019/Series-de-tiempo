@@ -1,0 +1,42 @@
+install.packages("ggplot2")
+require(ggplot2)
+install.packages("forecast")
+require(forecast)
+install.packages("fpp2")
+require(fpp2)
+seasonplot()
+install.packages("installr")
+library(installr)
+updateR()
+version
+net<- read.csv("C:\\Users\\ALUMNO\\Downloads\\base1.csv")
+netts<- ts(net, start=2018, frequency = 252)
+plot(netts)
+meanf(st,h)
+media<- meanf(netts,20)
+plot(media)
+
+naive(st,h)
+ingenuo<- naive(netts,20)
+plot(ingenuo)
+ingenuo
+snaive(st,h)
+ingestacional<- snaive(netts, 252)
+plot(ingestacional)
+
+
+###metodo de la deriva
+rwf(y,h, drift = TRUE)
+deri<- rwf(netts,20, drift = TRUE)
+plot(deri)
+
+cerveza2<- window(ausbeer,start=1992,end=c(2007,4))
+##Grafica algunos pronosticos
+autoplot(cerveza2)+autolayer(meanf(cerveza2, h=11), series="media", PI=FALSE)+
+autolayer(naive(cerveza2,h=11), series="ingenuo",
+PI=FALSE)+ autolayer(snaive(cerveza2,h=11), series = "ingenuo estacional",PI=FALSE)+
+  autolayer(rwf(cerveza2,h=11, drift=T),series = "deriva", PI=FALSE)+
+ggtitle("pronosticos produccion cerveca")+xlab("año")+
+ylab("miles de litros")+guides(colour=guide_legend(title="pronostico"))
+
+help("ausbeer")
