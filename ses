@@ -1,0 +1,41 @@
+install.packages("forecast")
+require(forecast)
+install.packages("fpp2")
+require(fpp2)
+
+
+pib<-read.csv("C:\\Users\\ALUMNO-D22\\Downloads\\pib.csv")
+pibts <- ts(pib,frequency = 1, start = 1961)
+plot(pibts)
+###como funciona ses
+mod1<- ses(pibts, alpha=0.1, initial="simple",h=8)
+mod2<-ses(pibts,alpha=0.3,initial="simple",h=8)
+mod3<-ses(pibts,alpha=0.9,h=8)
+plot(mod1, ylab="pib", xlab="año", main="pib", type="o")
+lines(fitted(mod1),col="blue", type="o")
+lines(fitted(mod2),col="red", type="o")
+lines(fitted(mod3),col="green", type="o")
+legend("topleft",lty=1,col=c(1,"blue","red", "green"),
+      c("data",expression(alpha==0.1),expression(alpha==0.3), ##entre mas cercano a 1 es un suabizador fuerte
+        expression(alpha==0.9)),pch=1)
+names(mod1)
+##EJERCICIO
+# CON LA FUNCION WINDOWS SEPAREN LA SERIE DEL PIB 
+#EN DATOS DE ENTRENAMIENTO Y DATOS DE PRUEBA (20%)
+#Y GRAFIQUEN LOS MODELOS SOLO EN LO QUE CORRESPONDE A 
+#LOS DATOS DE PRUEBA LOS VALORES AJUSTADOS DE LOS 3 MODELOS
+pib4<-window(pibts,star=1961,end=c(2006,1))
+
+
+
+pib5<- window(pibts,start=2005,end=2017)
+mod11<- ses(pib5, alpha=0.1, initial="simple",h=8)
+mod12<-ses(pib5,alpha=0.3,initial="simple",h=8)
+mod13<-ses(pib5,alpha=0.9,h=8)
+plot(mod11, ylab="pib", xlab="año", main="pib", type="o")
+lines(fitted(mod11),col="blue", type="o")
+lines(fitted(mod12),col="red", type="o")
+lines(fitted(mod13),col="green", type="o")
+legend("topleft",lty=1,col=c(1,"blue","red", "green"),
+       c("data",expression(alpha==0.1),expression(alpha==0.3), ##entre mas cercano a 1 es un suabizador fuerte
+         expression(alpha==0.9)),pch=1)
