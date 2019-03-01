@@ -1,0 +1,30 @@
+Install.packages("ggplot2")
+require(ggplot2)
+install.packages("forecast")
+require(forecast)
+install.packages("fpp2")
+require(fpp2)
+seasonplot()
+install.packages("installr")
+library(installr)
+updateR()
+
+cerveza2<- window(ausbeer,start=1992,end=c(2007,4))
+beerfit1<- meanf(cerveza2,h=10)
+beerfit2<- rwf(cerveza2,h=10)
+beerfit3<- snaive(cerveza2,h=10)
+##Grafica algunos pronosticos
+autoplot(window(ausbeer,start=1992))+
+  autolayer(beerfit1, series="media", PI=FALSE)+
+  autolayer(beerfit2, series="ingenuo",PI=FALSE)+ 
+  autolayer(beerfit3, series = "ingenuo estacional",PI=FALSE)+ ####nos da los errores ,mas pequeños
+  xlab("año") + ylab("litros") +
+  ggtitle("pronosticos produccion cerveca")+
+  guides(colour=guide_legend(title="pronostico"))
+###Para los errores accurity nos da la matz de los errores 
+beer3<- window(ausbeer,start=2008) ##porque los datos de prueba inician en el 2008 y antes del 2008 son residuos
+accuracy(beerfit1,beer3)##ajuste de la media
+accuracy(beerfit2,beer3)
+accuracy(beerfit3,beer3)### este es el mejor ajuste el de ingenuo estacional
+#se escoge el error mas pequeño y en este debe coincidir con el ingenuo estacinal
+plot(beer3)
