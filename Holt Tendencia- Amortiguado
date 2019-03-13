@@ -1,0 +1,82 @@
+require (fpp2)
+a1<-window(ausair,start=1990)
+prono<-holt(a1,h=5)
+autoplot(prono)
+prono1<- holt(a1,h=15)
+prono2<-holt(a1,damped = TRUE,phi = 0.9,h=15)
+autoplot(a1)+
+  autolayer(prono1,series="holt",PI=FALSE)+
+  autolayer(prono2,series="Amortiguado Holt",PI=FALSE)+
+  ggtitle("pronosticos")+xlab("año")+ ylab("pasajeros")+
+  guides(colour=guide_legend(title="prono"))
+  
+##con ses
+prono1<- holt(a1,h=15)
+prono2<-holt(a1,damped = TRUE,phi = 0.9,h=15)
+prono3<- ses(a1,alpha = 0.7,initial = "simple")
+autoplot(a1)+
+  autolayer(prono1,series="holt",PI=FALSE)+
+  autolayer(prono2,series="Amortiguado Holt",PI=FALSE)+
+  autolayer(prono3,series="SES",PI=FALSE)+
+  ggtitle("pronosticos")+xlab("año")+ ylab("pasajeros")+
+  guides(colour=guide_legend(title="prono"))
+###arroja errores
+e1<-tsCV(a1,ses,h=1)
+e2<-tsCV(a1,holt,h=1)
+e3<-tsCV(a1,holt,damped=TRUE,h=1)
+###na para eliminar los no datos
+MSE: #(ses)
+mean(e1^2,na.rm = TRUE)
+#10.58  
+mean(e2^2,na.rm = TRUE)
+#6.57  me quedo con este por ser m{as cercano a 0
+mean(e3^2,na.rm = TRUE)
+#7.58
+MAE:
+mean(abs(e1),na.rm = TRUE)
+##2.42
+mean(abs(e2),na.rm = TRUE)
+##1.80 me quedo con este por ser mas cercano a 0
+mean(abs(e3),na.rm = TRUE)
+##1.86
+
+base2<-read.csv("C:\\Users\\ALUMNO-D22\\Documents\\pib3.csv")
+base2
+
+base2ts <- ts(base2,start = 1980)
+plot.ts(base2ts)
+
+a1<-ts(base2,start = 1980)
+prono<-holt(a1,h=5)
+autoplot(prono)
+prono1<- holt(a1,h=15)
+prono2<-holt(a1,damped = TRUE,phi = 0.9,h=15)
+autoplot(a1)+
+  autolayer(prono1,series="holt",PI=FALSE)+
+  autolayer(prono2,series="Amortiguado Holt",PI=FALSE)+
+  ggtitle("pronosticos")+xlab("año")+ ylab("pasajeros")+
+  guides(colour=guide_legend(title="prono"))
+
+##con ses
+prono1<- holt(a1,h=15)
+prono2<-holt(a1,damped = TRUE,phi = 0.9,h=15)
+prono3<- ses(a1,alpha = 0.7,initial = "simple")
+autoplot(a1)+
+  autolayer(prono1,series="holt",PI=FALSE)+
+  autolayer(prono2,series="Amortiguado Holt",PI=FALSE)+
+  autolayer(prono3,series="SES",PI=FALSE)+
+  ggtitle("pronosticos")+xlab("año")+ ylab("pasajeros")+
+  guides(colour=guide_legend(title="prono"))
+###arroja errores
+e1<-tsCV(a1,ses,h=1)
+e2<-tsCV(a1,holt,h=1)
+e3<-tsCV(a1,holt,damped=TRUE,h=1)
+###na para eliminar los no datos
+MSE: #(ses)
+  mean(e1^2,na.rm = TRUE)
+mean(e2^2,na.rm = TRUE)
+mean(e3^2,na.rm = TRUE)
+MAE:
+  mean(abs(e1),na.rm = TRUE)
+mean(abs(e2),na.rm = TRUE)
+mean(abs(e3),na.rm = TRUE)
